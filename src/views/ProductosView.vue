@@ -142,7 +142,7 @@ function printBill() {
 }
 
 .prod{ display:flex; justify-content:space-between; align-items:center;min-height: 64px;
-  border:1px solid #eee; background:#fff; border-radius:12px; padding: 14px;transition: transform 120ms ease, box-shadow 100ms ease;
+  border:1px solid #eee; background:#fff; border-radius:12px; padding: 17px;transition: transform 120ms ease, box-shadow 100ms ease;
 }
 .prod.pressed {
   transform: scale(1.05);

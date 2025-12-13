@@ -129,7 +129,7 @@ function printBill() {
 .search{ width:100%; margin-top: 12px; border:1px solid #eee; border-radius:12px; padding: 12px; }
 
 .grid{ margin-top: 14px; display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.cat{ border:1px solid #eee; background:#fff; border-radius:12px; padding: 14px 10px; font-weight: 900; }
+.cat{ border:1px solid #eee; background:#fff; border-radius:12px; padding: 17px 10px; font-weight: 900; }
 
 .results{ margin-top: 14px; display:grid; gap: 10px; }
 .prod{ display:flex; justify-content:space-between; border:1px solid #eee; background:#fff; border-radius:12px; padding: 14px; }

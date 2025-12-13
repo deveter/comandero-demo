@@ -79,7 +79,7 @@
         </div>
 
         <div class="totalRow">
-          <div>Total</div>
+          <div class="bold">Total</div>
           <div class="bold">{{ totalPending.toFixed(2) }} €</div>
         </div>
       </div>
@@ -299,7 +299,7 @@ function lockBodyScroll(lock) {
 .box{
   border: 1px solid #f0f0f0;
   border-radius: 14px;
-  padding: 10px;
+  padding: 13px;
 }
 .box.soft{
   background: #f6f6f6;
@@ -316,9 +316,9 @@ function lockBodyScroll(lock) {
 .box.soft .line{ border-bottom-color: #e9e9e9; }
 .line:last-child{ border-bottom: 0; padding-bottom: 0; }
 
-.lName{ font-weight: 800; font-size: 12px; }
+.lName{ font-weight: 800; font-size: 15px; }
 .meta{ opacity:.65; font-weight: 800; margin-left: 6px; }
-.lRight{ display:flex; align-items:center; gap: 10px; }
+.lRight{ display:flex; align-items:center; gap: 10px;font-size: 15px; }
 .lPrice{ font-weight: 900; font-size: 12px; opacity:.8; }
 
 .qtyBtns{ display:flex; gap: 8px; }
@@ -334,10 +334,10 @@ function lockBodyScroll(lock) {
   margin-top: 10px;
   display:flex;
   justify-content:space-between;
-  font-size: 12px;
+  font-size: 15px;
   opacity:.8;
 }
-.bold{ font-weight: 900; opacity: 1; }
+.bold{ font-weight: 900; opacity: 1;font-size: 12px; }
 
 .empty{ padding: 10px; opacity:.6; font-size: 12px; }
 

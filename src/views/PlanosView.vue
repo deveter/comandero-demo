@@ -45,9 +45,10 @@
 
     <DinersModal
       v-if="diners.open"
+      :tableName="diners.tableName"
       :initial="diners.initial"
       @close="diners.open=false"
-      @confirm="confirmDiners"
+      @accept="onAcceptDiners"      
     />
   </div>
 </template>
@@ -93,7 +94,7 @@ function onTapTable(t){
   if (t.status === "free" && (!t.diners || t.diners === 0)) {
     diners.open = true;
     diners.tableId = t.id;
-    diners.initial = 2;
+    diners.initial = 0;
     diners.afterSetGo = true;
     return;
   }
@@ -125,12 +126,21 @@ function goPay(t){
 }
 
 function todo(msg){ sheet.open=false; alert(msg); }
+
+function onAcceptDiners(n) {
+  store.setDiners(diners.tableId, n);
+  diners.open = false;
+
+  // ir directo a la mesa (categorías)
+  router.push(`/mesa/${diners.tableId}/categorias`);
+}
 </script>
 
 <style scoped>
 .page{ padding: 16px; min-height:100vh; background:transparent; }
 .top{ display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
-.me{ opacity:.7; margin-top: 4px; }
+.me{ opacity:.7; 
+  margin-top: 4px;margin-bottom: 20px; }
 
 .grid{
   margin-top: 14px;
