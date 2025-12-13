@@ -210,32 +210,36 @@ function setTableRedIfNeeded() {
 }
 
 function closeTableAsPaid() {
-  // ✅ mesa verde libre + borrar todo
-  if (store.closeTable) {
-    store.closeTable(tableId);
-  } else {
-    // fallback razonable según estructuras típicas
-    if (store.discardDraft) store.discardDraft(tableId);
-    if (store.clearOrder) store.clearOrder(tableId);
-
-    // si guardas órdenes en maps:
-    if (store.drafts?.[tableId]) store.drafts[tableId] = { items: [] };
-    if (store.orders?.[tableId]) store.orders[tableId] = { items: [] };
-
-    // status + comensales
-    if (store.setDiners) store.setDiners(tableId, 0);
-    if (store.setStatus) store.setStatus(tableId, "free");
-    if (table.value) {
-      table.value.status = "free";
-      table.value.diners = 0;
-    }
-  }
-
-  // limpiar pagos
+  // 1) limpia pagos
   ensurePaymentsBucket();
   store.ui.payments[tableId] = [];
+
+  // 2) limpia draft y order (pendiente/enviado) + totales
+  if (store.discardDraft) store.discardDraft(tableId);
+  if (store.clearOrder) store.clearOrder(tableId);
+
+  // fallbacks por si tu store guarda mapas
+  if (store.drafts?.[tableId]) store.drafts[tableId] = { items: [] };
+  if (store.orders?.[tableId]) store.orders[tableId] = { items: [] };
+
+  // 3) deja mesa como nueva: verde + 0 comensales
+  if (store.setDiners) store.setDiners(tableId, 0);
+  if (store.setStatus) store.setStatus(tableId, "free");
+  if (store.setTableStatus) store.setTableStatus(tableId, "free");
+
+  // fallback si estás mutando directamente la mesa
+  if (table.value) {
+    table.value.status = "free";
+    table.value.diners = 0;
+  }
+
+  // opcional: si tienes estado "bill requested" (azul), lo limpias aquí
+  if (store.clearBillRequest) store.clearBillRequest(tableId);
+  if (table.value && "billRequested" in table.value) table.value.billRequested = false;
+
   store.persist?.();
 }
+
 
 function charge(_withTicket) {
   if (!canCharge.value) return;
@@ -254,16 +258,23 @@ function charge(_withTicket) {
   // reset input
   amountStr.value = "";
 
-  // si queda pendiente -> roja y nos quedamos
-  if (pending.value - payNow > 0.0001) {
+  const remaining = Math.max(0, pending.value - payNow);
+
+  // ✅ SI QUEDA PENDIENTE: mesa sigue roja pero VOLVEMOS A PLANOS
+  if (remaining > 0.0001) {
     setTableRedIfNeeded();
+    router.push("/planos");
     return;
   }
 
-  // si ya está todo pagado -> cerrar mesa y volver a planos
+  // ✅ SI YA ESTÁ TODO PAGADO: cerrar mesa (verde, diners 0, total 0, limpiar todo) y volver a planos
   closeTableAsPaid();
-  router.push("/planos");
-}
+  if (store.resetTable) store.resetTable(tableId);
+    else closeTableAsPaid(); // fallback por si aún no lo has metido
+
+    router.push("/planos");
+  }
+
 </script>
 
 <style scoped>

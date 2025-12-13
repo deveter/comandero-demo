@@ -208,6 +208,32 @@ export const useDemoStore = defineStore("demo", {
       this.persist();
     },
 
+    resetTable(tableId) {
+  const id = String(tableId);
+
+  // 1) Mesa: libre + diners 0 + lo que uses para “cuenta pedida”
+  const t = this.tables?.find(x => String(x.id) === id);
+  if (t) {
+    t.status = "free";
+    t.diners = 0;
+    if ("billRequested" in t) t.billRequested = false;
+    if ("discountPct" in t) t.discountPct = 0;
+    if ("total" in t) t.total = 0;          // por si guardas total en la mesa
+  }
+
+  // 2) Borra comanda “pendiente” (draft) y “enviado” (order)
+  // (en vez de dejar arrays viejos, lo dejamos vacío o lo eliminamos)
+  if (this.drafts) this.drafts[id] = { items: [] };
+  if (this.orders) this.orders[id] = { items: [] };
+
+  // 3) Si guardas “payments” en ui como hicimos
+  if (this.ui?.payments) this.ui.payments[id] = [];
+
+  // 4) Persistir a localStorage (como lo tengas)
+  this.persist?.();
+},
+
+
     decDraft(tableId, idx) {
       const d = this.draftCartByTable[tableId];
       if (!d?.items?.[idx]) return;
