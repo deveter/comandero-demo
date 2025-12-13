@@ -15,7 +15,7 @@
         v-for="p in filteredProducts"
         :key="p.id"
         class="prod"
-        :class="{ pressed: pressedId === p.id }"
+        :class="{ pressed: pressedId === String(p.id) }"
         @click="add(p.id)"
       >
         <div class="pname">{{ p.name }}</div>
@@ -82,7 +82,7 @@ const filteredProducts = computed(() => {
 
 function goBack() { router.push(`/mesa/${tableId}/categorias`); }
 function add(pid) {
-  pressedId.value = pid;
+  pressedId.value = String(pid);
   store.addToCart(tableId, pid);
   setTimeout(() => (pressedId.value = null), 150);
 }
@@ -123,14 +123,10 @@ function printBill() {
 <style scoped>
 .page{ min-height:100vh; background:transparent; padding: 14px; padding-bottom: 110px; }
 .top{ display:flex; align-items:center; justify-content:space-between; gap:10px; }
-.back{ border:1px solid #eee; background:#fff; border-radius:12px; padding:10px 12px; }
+.back{ border:1px solid #eee; background:#fff; border-radius:12px; padding:10px 12px;border-color:#163357;border-width: 3px;font-size: medium;font-weight: 800; }
 .title{ font-weight: 900; }
-.send{ border:1px solid #eee; background:#fff; border-radius:12px; padding:10px 14px; font-weight: 800; }
-.send.hot{
-  background:#ff8c2a;
-  border-color:#ff8c2a;
-  color:#fff;
-}
+.send{ border:1px solid #eee; background:#dbdbdb; border-radius:12px; padding:20px 24px; font-weight: 900;font-size: larger;color:white}
+.send.hot{ background:#ff5757; border-color:#ff5757; color:#fff; } /* naranja cuando hay draft */
 
 .search{ width:100%; margin-top: 12px; border:1px solid #eee; border-radius:12px; padding: 12px; }
 

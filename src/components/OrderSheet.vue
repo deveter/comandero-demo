@@ -347,9 +347,10 @@ function lockBodyScroll(lock) {
   border: 0;
   border-radius: 12px;
   padding: 14px;
-  background: #0d1b2a;
+  background: #163357;
   color: #fff;
   font-weight: 900;
+  font-size: larger;
 }
 .printBtn{
   width:100%;
@@ -359,6 +360,7 @@ function lockBodyScroll(lock) {
   background: #fff;
   font-weight: 900;
   opacity:.9;
+  font-size:larger
 }
 
 .sheet{

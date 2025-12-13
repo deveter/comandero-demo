@@ -106,10 +106,10 @@ function accept() {
 
 
 .panel{
-  max-width: 420px;
+  width:90%;
   margin: 0 auto;
   padding: 10px 18px 18px;
-  min-height: 100vh;
+  
 }
 
 .topbar{
