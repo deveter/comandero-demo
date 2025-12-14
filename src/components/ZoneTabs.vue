@@ -29,6 +29,7 @@ defineEmits(["update:modelValue"]);
   border-radius: 16px;
   padding: 6px;
   overflow: hidden;
+  margin-top:15px
 }
 
 /* CARRUSEL */

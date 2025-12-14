@@ -7,11 +7,7 @@
           <button class="hamburger" @click="drawer.open = true" aria-label="Menú">☰</button>
           <h2>Planos</h2>
         </div>
-
-        <div class="me">
-          <span><img class="icon-card" src="../assets/user.png" /></span>
-          {{ store.session.user?.name }} {{ store.session.user?.surname }}
-        </div>
+       
       </div>
 
       <ViewToggle v-model="store.ui.viewMode" />
@@ -20,7 +16,7 @@
     <ZoneTabs v-model="store.ui.activeZoneId" :zones="store.zones" />
 
     <div v-if="store.ui.viewMode==='map'" class="mapPlaceholder">
-      (Mapa lo hacemos más adelante)
+      (Mapa lo hago más adelante)
     </div>
 
     <div v-else class="grid">
@@ -78,7 +74,7 @@
     <transition name="slide">
       <aside v-if="drawer.open" class="drawer" @click.stop>
         <div class="drawerTop">
-          <div class="drawerBrand">TIPSI</div>
+          <div class="drawerBrand"><img id="logo-tipsi-burger" src="../assets/logo-tipsi.png" alt=""></div>
 
           <div class="drawerUser">
             <img class="drawerUserIcon" src="../assets/user.png" />
@@ -102,10 +98,12 @@
 
         <div class="drawerSectionTitle">Impresoras</div>
 
-        <button class="drawerItem" @click="todo('Mapeo de impresoras (pendiente)'); drawer.open=false">
+        
+        <button class="drawerItem" @click="nav('/impresoras/mapeo')">
           <span class="drawerIco"><img class="icon-card" src="../assets/printer.png" /></span>
           <span>Mapeo de impresoras</span>
         </button>
+
 
         <button class="drawerItem" @click="todo('Configurar tipo de impresión (pendiente)'); drawer.open=false">
           <span class="drawerIco"><img class="icon-card" src="../assets/printer2.png" /></span>
@@ -231,6 +229,12 @@ function logout() {
 </script>
 
 <style scoped>
+
+#logo-tipsi-burger{
+max-width: 40%;
+margin-left:90px
+}
+
 h2{
   margin:0px !important;
 }
@@ -413,8 +417,8 @@ h2{
 }
 
 .drawerUserText{ line-height: 1.1; }
-.drawerRole{ font-size: 12px; opacity:.7; font-weight: 900; }
-.drawerName{ font-size: 12px; font-weight: 900; }
+.drawerRole{ font-size: 16px; opacity:.7; font-weight: 900; }
+.drawerName{ font-size: 16px; font-weight: 900; }
 
 .drawerDivider{
   height: 1px;
@@ -441,6 +445,7 @@ h2{
   font-weight: 900;
   cursor:pointer;
   text-align:left;
+  font-size:medium;
 }
 .drawerItem:hover{ background:#f3f3f3; }
 .drawerItem.danger{ color:#c0392b; }

@@ -13,5 +13,5 @@ defineEmits(["update:modelValue"]);
 <style scoped>
 .toggle{ display:flex; border:1px solid #eee; border-radius: 999px; overflow:hidden; }
 .opt{ padding:8px 14px; border:0; background:#fff; font-weight:800; opacity:.7; }
-.opt.active{ background:#f4f4f4; opacity:1; }
+.opt.active{ background:#ffd6d6; opacity:1;color:#ff5757 }
 </style>
