@@ -42,12 +42,23 @@ export const useDemoStore = defineStore("demo", {
       { id: "m1", zoneId: "p1", name: "1", status: "free", diners: 0 },
       { id: "m2", zoneId: "p1", name: "2", status: "free", diners: 0 },
       { id: "m3", zoneId: "p1", name: "3", status: "free", diners: 0 },
+      { id: "m4", zoneId: "p1", name: "1", status: "free", diners: 0 },
+      { id: "m5", zoneId: "p1", name: "2", status: "free", diners: 0 },
+      { id: "m6", zoneId: "p1", name: "3", status: "free", diners: 0 },
 
-      { id: "m4", zoneId: "p2", name: "1", status: "free", diners: 0 },
-      { id: "m5", zoneId: "p2", name: "2", status: "free", diners: 0 },
+      { id: "m7", zoneId: "p2", name: "C1", status: "free", diners: 0 },
+      { id: "m8", zoneId: "p2", name: "C2", status: "free", diners: 0 },
+      { id: "m9", zoneId: "p2", name: "C1", status: "free", diners: 0 },
+      { id: "m10", zoneId: "p2", name: "C2", status: "free", diners: 0 },
+      { id: "m11", zoneId: "p2", name: "C1", status: "free", diners: 0 },
+      { id: "m12", zoneId: "p2", name: "C2", status: "free", diners: 0 },
+      { id: "m13", zoneId: "p2", name: "C1", status: "free", diners: 0 },
+      { id: "m14", zoneId: "p2", name: "C2", status: "free", diners: 0 },
 
-      { id: "m6", zoneId: "t", name: "1", status: "free", diners: 0 },
-      { id: "m7", zoneId: "t", name: "2", status: "free", diners: 0 },
+      { id: "m15", zoneId: "t", name: "T1", status: "free", diners: 0 },
+      { id: "m16", zoneId: "t", name: "T2", status: "free", diners: 0 },
+      { id: "m17", zoneId: "t", name: "T1", status: "free", diners: 0 },
+      { id: "m18", zoneId: "t", name: "T2", status: "free", diners: 0 },
     ],
 
     categories: [
