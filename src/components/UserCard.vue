@@ -2,7 +2,7 @@
   <button class="card" @click="$emit('select')">
     <div class="avatarWrap">
       <img v-if="user.avatar" class="avatar" :src="user.avatar" alt="" />
-      <div v-else class="avatar placeholder">👤</div>
+      <div v-else class="avatar placeholder"><img id="user-logo" src="../assets/user.png" alt=""></div>
 
       <div v-if="user.requiresPin" class="lock" title="Requiere PIN">🔒</div>
     </div>
@@ -59,5 +59,9 @@ defineEmits(["select"]);
   font-weight: 900;
   font-size: 12px;
   opacity:.75;
+}
+
+#user-logo{
+  max-width: 28px;
 }
 </style>

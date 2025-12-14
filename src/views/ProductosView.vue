@@ -77,6 +77,7 @@ const router = useRouter();
 const tableId = route.params.tableId;
 const catId = route.params.catId;
 
+const table = computed(() => store.tableById(tableId));
 const draft = computed(() => store.draftFor(tableId));
 const hasDraft = computed(() => draft.value.items.length > 0);
 
@@ -115,7 +116,17 @@ function add(pid) {
   setTimeout(() => (pressedId.value = null), 150);
 }
 
+/* ✅ ÚNICO CAMBIO: mismo comportamiento que CategoriasView.vue */
 function goPlanos() {
+  if (hasDraft.value) {
+    confirmLeave.value = true;
+    return;
+  }
+
+  if (table.value?.status === "free") {
+    store.setDiners(tableId, 0);
+  }
+
   router.push("/planos");
 }
 

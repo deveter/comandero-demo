@@ -32,7 +32,8 @@
         <div class="cardContent">
           <div class="circle" :class="t.status">{{ t.name }}</div>
 
-          <div class="info">
+          <!-- ✅ SOLO mostramos comensales + € si NO está libre -->
+          <div v-if="t.status !== 'free'" class="info">
             <!-- Comensales -->
             <div class="info-row">
               <span><img class="icon-card" src="../assets/user.png" /></span>
@@ -290,7 +291,7 @@ h2{
 .cardContent{
   position:absolute;
   inset:0;
-  padding: 12px;
+  padding: 6px 12px;
 
   display:flex;
   flex-direction:column;

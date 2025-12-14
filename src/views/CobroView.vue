@@ -323,13 +323,13 @@ function charge(_withTicket) {
 
 .label{
   font-weight:900;
-  font-size:12px;
+  font-size:18px;
   opacity:.85;
 }
 
 .value{
   font-weight:900;
-  font-size:12px;
+  font-size:18px;
 }
 
 .small .label{ opacity:.55; font-weight:800; }
@@ -338,7 +338,7 @@ function charge(_withTicket) {
 
 .label2{
   font-weight:900;
-  font-size:12px;
+  font-size:18px;
   opacity:.8;
   margin-bottom: 8px;
 }
@@ -355,7 +355,7 @@ function charge(_withTicket) {
   border-radius: 999px;
   padding: 8px 10px;
   font-weight:900;
-  font-size: 12px;
+  font-size: 18px;
   cursor:pointer;
 }
 
@@ -383,14 +383,14 @@ function charge(_withTicket) {
 
 .payLbl{
   font-weight:900;
-  font-size:11px;
+  font-size:18px;
   opacity:.7;
 }
 
 .payVal{
   margin-top: 4px;
   font-weight:900;
-  font-size:14px;
+  font-size:18px;
 }
 
 .arrowBtn{
@@ -443,7 +443,7 @@ function charge(_withTicket) {
   border:0;
   background:#efefef;
   font-weight:900;
-  font-size:14px;
+  font-size:18px;
   cursor:pointer;
 }
 
@@ -492,6 +492,7 @@ function charge(_withTicket) {
   border-radius: 12px;
   padding: 14px;
   font-weight:900;
+  font-size:20px;
 }
 
 .btnPrimary{
@@ -502,6 +503,7 @@ function charge(_withTicket) {
   border-radius: 12px;
   padding: 14px;
   font-weight:900;
+  font-size:20px
 }
 
 .btnSecondary:disabled,
