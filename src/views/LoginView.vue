@@ -1,11 +1,6 @@
 <template>
   <div class="page">
-    <!-- Barra superior fake (hora / iconos) -->
-    <div class="topbar">
-      <div class="time">9:30</div>
-      <div class="icons">📶 🔋</div>
-    </div>
-
+   
     <!-- Logo -->
     <img class="logo" :src="logoUrl" alt="TIPSI" />
 
