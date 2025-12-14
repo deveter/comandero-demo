@@ -3,12 +3,15 @@
     class="sheet"
     :class="{ animating: isAnimating }"
     :style="{ transform: `translateY(${translateY}px)` }"
-    @touchstart="onStart"
-    @touchmove="onMove"
-    @touchend="onEnd"
   >
     <!-- handle / minimizado -->
-    <div class="handle" @click="toggle">
+    <div
+      class="handle"
+      @touchstart.prevent="onStart"
+      @touchmove.prevent="onMove"
+      @touchend.prevent="onEnd"
+      @click="toggle"
+    >
       <div class="bar"></div>
 
       <div class="miniRow">
@@ -157,9 +160,7 @@ const collapsedHeight = 92;
 const maxTranslate = computed(() => sheetHeight.value - collapsedHeight);
 const translateY = ref(0);
 
-// ✅ snap “rápido”: con tirar un poco, abre/cierra del tirón
 const SNAP_PX = 26;
-
 const isAnimating = ref(false);
 
 onMounted(() => {
@@ -197,186 +198,278 @@ function onMove(e) {
   const y = e.touches[0].clientY;
   const delta = y - startY;
 
-  // Si empiezas a mover, ya contamos como drag
-  if (Math.abs(delta) > 2) dragged = true;
+  if (Math.abs(delta) > 8) dragged = true;
 
-  // Mientras arrastras, dejamos el sheet seguir el dedo (sin transición)
   isAnimating.value = false;
-
   const next = Math.min(maxTranslate.value, Math.max(0, startTranslate + delta));
   translateY.value = next;
 }
 
 function onEnd() {
   if (!dragged) return;
+  const moved = translateY.value - startTranslate;
 
-  const moved = translateY.value - startTranslate; // + hacia abajo, - hacia arriba
-
-  // ✅ con un gesto pequeño hacemos snap directo
   if (Math.abs(moved) >= SNAP_PX) {
-    // si movió hacia arriba => abrir
     if (moved < 0) snapTo(true);
-    // si movió hacia abajo => cerrar
     else snapTo(false);
     return;
   }
-
-  // Si fue un gesto MUY pequeño, vuelve al estado anterior (sin quedarse “a medias”)
   snapTo(expanded.value);
 }
 </script>
 
 <style scoped>
-.sheet{
+.sheet {
   position: fixed;
-  left: 0; right: 0; bottom: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   height: 78vh;
   background: #fff;
   border-top-left-radius: 18px;
   border-top-right-radius: 18px;
   border: 1px solid #eee;
-  box-shadow: 0 -10px 30px rgba(0,0,0,.08);
+  box-shadow: 0 -10px 30px rgba(0, 0, 0, .08);
   will-change: transform;
+  touch-action: pan-y;
+  overscroll-behavior: contain;
 }
 
-/* ✅ SOLO animamos cuando hacemos snap */
-.sheet.animating{
+.sheet.animating {
   transition: transform 170ms ease;
 }
 
-.handle{
+.handle {
   padding: 10px 14px 12px;
   border-bottom: 1px solid #f2f2f2;
 }
-.bar{
-  width: 44px; height: 5px; border-radius: 6px;
-  background: #e7e7e7; margin: 0 auto 8px;
-}
-.miniRow{ display:flex; justify-content:space-between; font-weight: 900; }
-.miniSub{ margin-top: 2px; opacity: .65; font-size: 12px; }
 
-.content{
-  display:flex;
+.bar {
+  width: 44px;
+  height: 5px;
+  border-radius: 6px;
+  background: #e7e7e7;
+  margin: 0 auto 8px;
+}
+
+.miniRow {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 900;
+}
+
+.miniSub {
+  margin-top: 2px;
+  opacity: .65;
+  font-size: 12px;
+}
+
+.content {
+  display: flex;
   flex-direction: column;
   height: calc(78vh - 78px);
 }
 
-.sheetHeader{
+.sheetHeader {
   padding: 12px 14px 10px;
   border-bottom: 1px solid #f2f2f2;
 }
 
-.sheetScroll{
+.sheetScroll {
   flex: 1;
   overflow: auto;
   padding: 12px 14px;
+  touch-action: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
-.sheetFooter{
+.sheetFooter {
   padding: 12px 14px 14px;
   border-top: 1px solid #f2f2f2;
   background: #fff;
 }
 
-.scrollSpacer{
+.scrollSpacer {
   height: 90px;
 }
 
-.tarifa{
+.tarifa {
   margin-top: 4px;
   font-size: 12px;
   opacity: .55;
   font-weight: 700;
 }
 
-.headRow{ display:flex; justify-content:space-between; align-items:flex-start; gap: 12px; }
-.headTitle{ font-weight: 900; }
-.headTotals{ margin-top: 4px; font-size: 12px; opacity:.75; display:flex; gap: 6px; flex-wrap: wrap; }
-.big{ font-weight: 900; opacity: 1; }
-.sep{ opacity:.35; }
-.per2{ opacity:.65; }
+.headRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
 
-.dinersBox{
-  border:1px solid #eee;
-  background:#fff;
+.headTitle {
+  font-weight: 900;
+}
+
+.headTotals {
+  margin-top: 4px;
+  font-size: 12px;
+  opacity: .75;
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.big {
+  font-weight: 900;
+  opacity: 1;
+}
+
+.sep {
+  opacity: .35;
+}
+
+.per2 {
+  opacity: .65;
+}
+
+.dinersBox {
+  border: 1px solid #eee;
+  background: #fff;
   border-radius: 12px;
   padding: 8px 10px;
-  display:flex;
-  align-items:center;
+  display: flex;
+  align-items: center;
   gap: 8px;
 }
-.dinersNum{ font-weight: 900; font-size: 16px; }
-.dinersLbl{ opacity:.7; }
 
-.actions{
+.dinersNum {
+  font-weight: 900;
+  font-size: 16px;
+}
+
+.dinersLbl {
+  opacity: .7;
+}
+
+.actions {
   margin-top: 12px;
-  display:flex;
+  display: flex;
   gap: 10px;
 }
-.aBtn{
-  flex:1;
-  border:1px solid #eee;
-  background:#fff;
+
+.aBtn {
+  flex: 1;
+  border: 1px solid #eee;
+  background: #fff;
   border-radius: 14px;
   padding: 10px 8px;
   font-weight: 900;
   font-size: 12px;
-  display:flex;
+  display: flex;
   flex-direction: column;
-  align-items:center;
+  align-items: center;
   gap: 6px;
 }
-.ico{ font-size: 18px; }
 
-.section{ margin-top: 14px; }
-.secTitle{ font-weight: 900; font-size: 12px; opacity:.65; margin-bottom: 8px; }
+.ico {
+  font-size: 18px;
+}
 
-.box{
+.section {
+  margin-top: 14px;
+}
+
+.secTitle {
+  font-weight: 900;
+  font-size: 12px;
+  opacity: .65;
+  margin-bottom: 8px;
+}
+
+.box {
   border: 1px solid #f0f0f0;
   border-radius: 14px;
   padding: 13px;
 }
-.box.soft{
+
+.box.soft {
   background: #f6f6f6;
   border-color: #ededed;
 }
 
-.line{
-  display:flex;
-  justify-content:space-between;
+.line {
+  display: flex;
+  justify-content: space-between;
   gap: 10px;
   padding: 10px 0;
   border-bottom: 1px solid #f3f3f3;
 }
-.box.soft .line{ border-bottom-color: #e9e9e9; }
-.line:last-child{ border-bottom: 0; padding-bottom: 0; }
 
-.lName{ font-weight: 800; font-size: 15px; }
-.lRight{ display:flex; align-items:center; gap: 10px; font-size: 15px; }
-.lPrice{ font-weight: 900; font-size: 12px; opacity:.8; }
+.box.soft .line {
+  border-bottom-color: #e9e9e9;
+}
 
-.qtyBtns{ display:flex; gap: 8px; }
-.q{
-  width: 30px; height: 30px;
+.line:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.lName {
+  font-weight: 800;
+  font-size: 15px;
+}
+
+.lRight {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.lPrice {
+  font-weight: 900;
+  font-size: 12px;
+  opacity: .8;
+}
+
+.qtyBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.q {
+  width: 30px;
+  height: 30px;
   border-radius: 12px;
   border: 1px solid #eee;
-  background:#fff;
+  background: #fff;
   font-size: 18px;
+  touch-action: manipulation;
 }
 
-.totalRow{
+.totalRow {
   margin-top: 10px;
-  display:flex;
-  justify-content:space-between;
+  display: flex;
+  justify-content: space-between;
   font-size: 15px;
-  opacity:.8;
+  opacity: .8;
 }
-.bold{ font-weight: 900; opacity: 1; font-size: 12px; }
 
-.empty{ padding: 10px; opacity:.6; font-size: 12px; }
+.bold {
+  font-weight: 900;
+  opacity: 1;
+  font-size: 12px;
+}
 
-.payBtn{
-  width:100%;
+.empty {
+  padding: 10px;
+  opacity: .6;
+  font-size: 12px;
+}
+
+.payBtn {
+  width: 100%;
   border: 0;
   border-radius: 12px;
   padding: 14px;
@@ -384,25 +477,18 @@ function onEnd() {
   color: #fff;
   font-weight: 900;
   font-size: larger;
+  touch-action: manipulation;
 }
-.printBtn{
-  width:100%;
+
+.printBtn {
+  width: 100%;
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 14px;
   background: #fff;
   font-weight: 900;
-  opacity:.9;
-  font-size:larger;
-}
-
-/* gestos */
-.sheet{
-  touch-action: none;
-  overscroll-behavior: contain;
-}
-.sheetScroll{
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
+  opacity: .9;
+  font-size: larger;
+  touch-action: manipulation;
 }
 </style>

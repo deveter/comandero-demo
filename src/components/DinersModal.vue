@@ -19,7 +19,7 @@
 
 
       <div class="rowUnder">
-        <span class="people">👤</span>
+        <span class="people"><img class="icon-people" src="../assets/user.png" alt=""></span>
         <span class="underTxt">Comensales</span>
       </div>
 
@@ -223,4 +223,7 @@ function accept() {
 .row{ display:flex; gap:10px; margin-top: 12px; }
 .b{ flex:1; border:1px solid #eee; background:#fff; border-radius:12px; padding:12px; font-weight:900; }
 .ok{ background:#0d1b2a; color:#fff; border-color:#0d1b2a; }
+.icon-people{
+  max-width: 18px;
+}
 </style>
